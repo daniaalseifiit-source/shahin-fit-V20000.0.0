@@ -1,9 +1,10 @@
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { UserRole, PlanRequest, Program, Exercise } from './types';
 import Sidebar from './components/Sidebar';
 import TrainerDashboard from './components/TrainerDashboard';
 import StudentDashboard from './components/StudentDashboard';
-import { Loader2, CloudUpload, Lock, WifiOff } from 'lucide-react';
+import { Loader2, CloudUpload, Lock, WifiOff, Menu } from 'lucide-react';
 import { EXERCISES_DB } from './constants';
 
 const App: React.FC = () => {
@@ -17,6 +18,7 @@ const App: React.FC = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [authError, setAuthError] = useState(false);
   const [connectionError, setConnectionError] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
@@ -44,10 +46,6 @@ const App: React.FC = () => {
         setAuthError(true);
       } else {
         console.error("Server error:", response.status);
-        // Fallback for demo/dev mode if API is missing (e.g. 404)
-        // Note: In production, you might want to show an error instead.
-        // For now, let's assume if 404 (API not found), we might default to Student for UI testing
-        // OR show connection error. Let's show connection error to be safe.
         setConnectionError(true);
       }
     } catch (error) {
@@ -63,7 +61,8 @@ const App: React.FC = () => {
   }, [fetchData]);
 
   const saveToServer = useCallback(async (updatedRequests: PlanRequest[], updatedPrograms: Program[]) => {
-    if (role !== UserRole.TRAINER) return;
+    // اجازه ذخیره‌سازی به همه کاربران (مربی و شاگرد)
+    // منطق سمت سرور جلوی تداخل داده‌های شاگردان را می‌گیرد
     
     setIsSaving(true);
     try {
@@ -85,10 +84,11 @@ const App: React.FC = () => {
     } finally {
       setTimeout(() => setIsSaving(false), 800);
     }
-  }, [role, exercises]);
+  }, [exercises]);
 
   useEffect(() => {
-    if (!isLoading && !authError && !connectionError && role === UserRole.TRAINER) {
+    if (!isLoading && !authError && !connectionError && role) {
+      // ذخیره خودکار برای هر تغییری
       const timer = setTimeout(() => {
         saveToServer(requests, programs);
       }, 2000);
@@ -166,12 +166,27 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen flex bg-[#0a0a0c] text-white" dir="rtl">
-      <Sidebar role={role} activeTab={activeTab} setActiveTab={setActiveTab} requests={requests} />
+      <Sidebar 
+        role={role} 
+        activeTab={activeTab} 
+        setActiveTab={setActiveTab} 
+        requests={requests}
+        isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen} 
+      />
 
-      <main className="flex-1 p-4 md:p-8 overflow-y-auto">
-        <div className="flex justify-between items-center mb-8">
+      <main className="flex-1 p-4 md:p-8 overflow-y-auto w-full">
+        <div className="flex justify-between items-center mb-8 gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center border border-cyan-500/40 shadow-lg shadow-cyan-500/5">
+             {/* Hamburger Button for Mobile */}
+             <button 
+               onClick={() => setIsSidebarOpen(true)} 
+               className="lg:hidden w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 active:bg-white/10 transition-colors"
+             >
+               <Menu size={24} />
+             </button>
+
+            <div className="w-12 h-12 rounded-xl bg-cyan-500/20 flex items-center justify-center border border-cyan-500/40 shadow-lg shadow-cyan-500/5 hidden sm:flex">
               <span className="text-cyan-400 font-bold text-xl italic">S</span>
             </div>
             <div>
