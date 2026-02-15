@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>پنل مربی | فیت‌منیجر</title>
+
+  <!-- فونت فارسی -->
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#00f5d4',
+            secondary: '#6366f1',
+            success: '#10b981',
+            danger: '#ef4444',
+            darkbg: '#0f172a',
+          },
+          fontFamily: {
+            sans: ['Vazirmatn', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #0b0f19;
+      background-image: radial-gradient(circle at 10% 20%, rgba(0, 245, 212, 0.05) 0%, transparent 20%),
+                        radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.04) 0%, transparent 25%);
+      direction: rtl;
+    }
+
+    .glass-card {
+      background: rgba(30, 41, 59, 0.5);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 50;
+    }
+
+    .modal-content {
+      background: rgba(30, 41, 59, 0.9);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 2xl;
+      padding: 2rem;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    .modal-success {
+      border: 2px solid #10b981;
+    }
+  </style>
+</head>
+<body class="text-white font-sans antialiased dark:bg-darkbg min-h-screen">
+
+  <!-- نوار بالا -->
+  <header class="glass-card rounded-2xl mx-4 mt-6 px-6 py-4 flex justify-between items-center">
+    <div class="flex items-center space-x-2 space-x-reverse">
+      <div class="w-3 h-3 rounded-full bg-primary"></div>
+      <h1 class="text-xl font-bold">پنل مربی</h1>
+    </div>
+    <div class="relative">
+      <button class="p-2 rounded-full bg-gray-800 hover:bg-gray-700">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+        </svg>
+        <span class="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- منو -->
+  <nav class="glass-card rounded-2xl mx-4 mt-4 px-6 py-4 flex justify-center space-x-6 space-x-reverse">
+    <a href="#" class="font-medium hover:text-primary">درخواست‌های جدید</a>
+    <a href="#" class="font-medium text-gray-400">شاگردان</a>
+    <a href="#" class="font-medium text-gray-400">برنامه‌های من</a>
+    <a href="#" class="font-medium text-gray-400">پروفایل</a>
+  </nav>
+
+  <main class="max-w-6xl mx-auto px-4 mt-8">
+    <!-- بخش درخواست‌های جدید -->
+    <div class="glass-card rounded-2xl p-6 mb-8">
+      <h2 class="text-2xl font-bold mb-4">درخواست‌های جدید</h2>
+      <div class="space-y-4">
+        <div class="p-4 rounded-xl bg-gray-800/50 border border-gray-700">
+          <div class="flex justify-between">
+            <h3 class="text-lg font-semibold">علی محمدی</h3>
+            <span class="text-sm text-gray-400">تهران</span>
+          </div>
+          <p class="mt-2"><strong>برنامه:</strong> کاهش وزن</p>
+          <p><strong>سطح:</strong> مبتدی</p>
+          <div class="flex space-x-3 space-x-reverse mt-4">
+            <button class="px-4 py-2 rounded-xl bg-success text-white hover:bg-green-600">تایید</button>
+            <button class="px-4 py-2 rounded-xl bg-danger text-white hover:bg-red-600">رد</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- صفحه تعیین قیمت (پس از تایید درخواست) -->
+    <div class="glass-card rounded-2xl p-6 mb-8 hidden" id="payment-form">
+      <h2 class="text-2xl font-bold mb-4">تعیین قیمت و ارسال</h2>
+      <form id="price-form">
+        <div class="mb-4">
+          <label class="block text-gray-300 mb-2">قیمت (تومان)</label>
+          <input type="number" class="w-full bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none" placeholder="مثلاً: ۵۰۰۰۰" />
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-300 mb-2">شماره کارت</label>
+          <input type="text" class="w-full bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none" placeholder="۱۲۳۴-۵۶۷۸-۹۰۱۲-۳۴۵۶" />
+        </div>
+        <button type="submit" class="px-6 py-3 rounded-xl bg-primary text-gray-900 font-bold">ارسال به کاربر</button>
+      </form>
+    </div>
+
+    <!-- شاگردانی که واریز کرده‌اند -->
+    <div class="glass-card rounded-2xl p-6 mb-8 hidden" id="payment-confirmed">
+      <h2 class="text-2xl font-bold mb-4">واریزهای دریافتی</h2>
+      <div class="space-y-4">
+        <div class="p-4 rounded-xl bg-gray-800/50 border border-gray-700">
+          <p class="text-lg font-semibold">کاربر: سارا احمدی</p>
+          <p class="text-gray-300">فیش بانکی بارگذاری شد</p>
+          <div class="flex space-x-3 space-x-reverse mt-4">
+            <button class="px-4 py-2 rounded-xl bg-success text-white hover:bg-green-600">تایید</button>
+            <button class="px-4 py-2 rounded-xl bg-danger text-white hover:bg-red-600">رد</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- صفحه ساخت برنامه (پس از تایید فیش) -->
+    <div class="glass-card rounded-2xl p-6 mb-8 hidden" id="create-program">
+      <h2 class="text-2xl font-bold mb-4">ساخت برنامه فیتنس</h2>
+      <textarea class="w-full h-64 bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none text-gray-200" placeholder="برنامه خود را اینجا وارد کنید..."></textarea>
+      <button class="mt-4 px-6 py-3 rounded-xl bg-primary text-gray-900 font-bold">ارسال به کاربر</button>
+    </div>
+  </main>
+
+  <!-- مدل نمایش پیام نهایی به کاربر -->
+  <div id="success-modal" class="modal-overlay">
+    <div class="modal-content modal-success">
+      <div class="text-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-success mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        <h3 class="text-2xl font-bold text-white mb-2">درخواست شما تایید شد!</h3>
+        <p class="text-gray-300 text-lg leading-relaxed">
+          برنامه‌های شما بعد از واریز وجه، بین ۲ تا ۴ روز کاری برای شما ارسال خواهد شد.
+        </p>
+        <button class="mt-6 px-6 py-3 rounded-xl bg-primary text-gray-900 font-bold hover:scale-105 transition-transform">
+          بستن
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // نمایش صفحه تعیین قیمت بعد از کلیک تایید درخواست
+    document.querySelector('.bg-success').addEventListener('click', function() {
+      document.getElementById('payment-form').classList.remove('hidden');
+    });
+
+    // نمایش صفحه واریزهای تأیید شده
+    document.querySelector('#price-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('payment-form').classList.add('hidden');
+      document.getElementById('payment-confirmed').classList.remove('hidden');
+    });
+
+    // نمایش صفحه ساخت برنامه
+    document.querySelector('#payment-confirmed .bg-success').addEventListener('click', function() {
+      document.getElementById('payment-confirmed').classList.add('hidden');
+      document.getElementById('create-program').classList.remove('hidden');
+    });
+
+    // نمایش پیام نهایی به کاربر (همین پیامی که مالک خواست)
+    document.querySelector('#create-program .bg-primary').addEventListener('click', function() {
+      document.getElementById('create-program').classList.add('hidden');
+      document.getElementById('success-modal').classList.remove('hidden');
+    });
+
+    // بستن مدل
+    document.querySelector('#success-modal button').addEventListener('click', function() {
+      document.getElementById('success-modal').classList.add('hidden');
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+# Shahin Fit - Subdirectory Routing Logic
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  
+  # تعیین نقطه شروع برای روت‌های اپلیکیشن
+  RewriteBase /app/
+  
+  # اگر فایل یا پوشه واقعی وجود داشت، همان را باز کن (مثل عکس‌ها یا استایل‌ها)
+  RewriteCond %{REQUEST_FILENAME} -f [OR]
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+  
+  # در غیر این صورت، همه درخواست‌ها را به index.html بفرست تا ری‌اکت هندل کند
+  RewriteRule ^ index.html [L]
+</IfModule>
+
+# جلوگیری از خطای ۴۰۴ در سرورهای مدرن
+<IfModule mod_dir.c>
+    DirectoryIndex index.html
+</IfModule>

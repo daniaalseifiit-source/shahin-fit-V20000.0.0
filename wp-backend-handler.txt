@@ -1,0 +1,74 @@
+<?php
+/**
+ * Plugin Name: Shahin Fit Platform API
+ * Description: مدیریت ارتباطات API و پایگاه داده برای پلتفرم فیتنس شاهین.
+ * Version: 1.1.0
+ * Author: Shahin Fit
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit; // جلوگیری از دسترسی مستقیم
+}
+
+add_action('rest_api_init', function () {
+    // مسیر دریافت و ذخیره داده‌ها
+    register_rest_route('shahin-fit/v1', '/data', array(
+        'methods' => 'GET',
+        'callback' => 'shahin_fit_get_data',
+        'permission_callback' => function () {
+            return is_user_logged_in();
+        }
+    ));
+
+    register_rest_route('shahin-fit/v1', '/data', array(
+        'methods' => 'POST',
+        'callback' => 'shahin_fit_save_data',
+        'permission_callback' => function () {
+            return current_user_can('administrator') || current_user_can('trainer');
+        }
+    ));
+});
+
+function shahin_fit_get_data() {
+    $current_user = wp_get_current_user();
+    $role = 'STUDENT';
+    if (in_array('administrator', (array) $current_user->roles) || in_array('trainer', (array) $current_user->roles)) {
+        $role = 'TRAINER';
+    }
+
+    $requests = get_option('shahin_fit_requests', array());
+    $programs = get_option('shahin_fit_programs', array());
+    $exercises = get_option('shahin_fit_exercises', array());
+
+    $user_id_str = 'S' . $current_user->ID;
+
+    if ($role === 'STUDENT') {
+        $requests = array_values(array_filter($requests, function($req) use ($user_id_str) {
+            return $req['studentId'] === $user_id_str;
+        }));
+        $programs = array_values(array_filter($programs, function($prog) use ($user_id_str) {
+            return $prog['studentId'] === $user_id_str;
+        }));
+    }
+
+    return new WP_REST_Response(array(
+        'role' => $role,
+        'requests' => $requests,
+        'programs' => $programs,
+        'exercises' => $exercises,
+        'currentUser' => array(
+            'id' => $user_id_str,
+            'name' => $current_user->display_name,
+            'email' => $current_user->user_email
+        )
+    ), 200);
+}
+
+function shahin_fit_save_data($request) {
+    $params = $request->get_json_params();
+    if (isset($params['requests'])) update_option('shahin_fit_requests', $params['requests']);
+    if (isset($params['programs'])) update_option('shahin_fit_programs', $params['programs']);
+    if (isset($params['exercises'])) update_option('shahin_fit_exercises', $params['exercises']);
+    return new WP_REST_Response(array('status' => 'success'), 200);
+}
+?>

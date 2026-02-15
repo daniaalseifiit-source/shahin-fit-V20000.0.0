@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>اطلاعات تکمیلی | فیت‌منیجر</title>
+
+  <!-- فونت فارسی -->
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#00f5d4',
+            secondary: '#6366f1',
+            success: '#10b981',
+            danger: '#ef4444',
+            darkbg: '#0f172a',
+          },
+          fontFamily: {
+            sans: ['Vazirmatn', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #0b0f19;
+      background-image: radial-gradient(circle at 10% 20%, rgba(0, 245, 212, 0.05) 0%, transparent 20%),
+                        radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.04) 0%, transparent 25%);
+      direction: rtl;
+    }
+
+    .glass-card {
+      background: rgba(30, 41, 59, 0.5);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body class="text-white font-sans antialiased dark:bg-darkbg min-h-screen">
+
+  <header class="glass-card rounded-2xl mx-4 mt-6 px-6 py-4 flex justify-between items-center">
+    <div class="flex items-center space-x-2 space-x-reverse">
+      <div class="w-3 h-3 rounded-full bg-primary"></div>
+      <h1 class="text-xl font-bold">فیت‌منیجر</h1>
+    </div>
+    <button class="px-4 py-2 rounded-xl bg-primary text-gray-900 font-medium hover:scale-105 transition-transform">
+      خروج
+    </button>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 mt-8">
+    <div class="glass-card rounded-2xl p-8">
+      <h2 class="text-2xl font-bold mb-6 text-center">فرم اطلاعات تکمیلی</h2>
+      <p class="text-gray-300 text-center mb-8">
+        لطفاً اطلاعات زیر را به دقت پر کنید. این اطلاعات برای تهیه برنامه شخصی‌سازی شده ضروری است.
+      </p>
+
+      <form id="complementary-form">
+        <!-- فیلدهای وردپرس -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <div>
+            <label class="block text-gray-300 mb-2">نام</label>
+            <input type="text" value="علی محمدی" readonly class="w-full bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-gray-300 mb-2">شهر</label>
+            <input type="text" value="تهران" readonly class="w-full bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-gray-300 mb-2">شماره تماس</label>
+            <input type="text" value="09123456789" readonly class="w-full bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none" />
+          </div>
+        </div>
+
+        <!-- فیلدهای تکمیلی -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <label class="block text-gray-300 mb-2">سن</label>
+            <input type="number" class="w-full bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none" required />
+          </div>
+          <div>
+            <label class="block text-gray-300 mb-2">قد (سانتی‌متر)</label>
+            <input type="number" class="w-full bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none" required />
+          </div>
+          <div>
+            <label class="block text-gray-300 mb-2">وزن (کیلوگرم)</label>
+            <input type="number" class="w-full bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none" required />
+          </div>
+          <div>
+            <label class="block text-gray-300 mb-2">گروه خونی</label>
+            <select class="w-full bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none">
+              <option value="">انتخاب کنید</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- سطح (از فرم قبلی) -->
+        <div class="mb-6">
+          <label class="block text-gray-300 mb-2">سطح (از فرم قبلی)</label>
+          <input type="text" value="امateur (زیر ۱ سال سابقه)" readonly class="w-full bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none" />
+        </div>
+
+        <!-- سابقه مصرف مکمل -->
+        <div class="mb-6">
+          <label class="block text-gray-300 mb-3">سابقه مصرف مکمل</label>
+          <div class="flex space-x-6 space-x-reverse mb-3">
+            <label class="flex items-center">
+              <input type="radio" name="supplement" value="yes" class="h-5 w-5 text-primary focus:ring-primary" required />
+              <span class="mr-2">بله</span>
+            </label>
+            <label class="flex items-center">
+              <input type="radio" name="supplement" value="no" class="h-5 w-5 text-primary focus:ring-primary" />
+              <span class="mr-2">خیر</span>
+            </label>
+          </div>
+          <input type="text" name="supplement_list" placeholder="در صورت بله، نام مکمل‌ها را ذکر کنید" class="w-full bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none" />
+        </div>
+
+        <!-- ساعت بیداری و خواب -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <label class="block text-gray-300 mb-2">ساعت بیداری</label>
+            <input type="time" class="w-full bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none" required />
+          </div>
+          <div>
+            <label class="block text-gray-300 mb-2">ساعت خواب</label>
+            <input type="time" class="w-full bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none" required />
+          </div>
+        </div>
+
+        <!-- تایم تمرین -->
+        <div class="mb-6">
+          <label class="block text-gray-300 mb-3">تایم تمرین مدنظر</label>
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <label class="flex items-center justify-center bg-gray-800/50 p-3 rounded-xl cursor-pointer hover:bg-gray-700">
+              <input type="radio" name="exercise_time" value="صبح" class="h-5 w-5 text-primary focus:ring-primary" required />
+              <span class="mr-2">صبح</span>
+            </label>
+            <label class="flex items-center justify-center bg-gray-800/50 p-3 rounded-xl cursor-pointer hover:bg-gray-700">
+              <input type="radio" name="exercise_time" value="ظهر" class="h-5 w-5 text-primary focus:ring-primary" />
+              <span class="mr-2">ظهر</span>
+            </label>
+            <label class="flex items-center justify-center bg-gray-800/50 p-3 rounded-xl cursor-pointer hover:bg-gray-700">
+              <input type="radio" name="exercise_time" value="عصر" class="h-5 w-5 text-primary focus:ring-primary" />
+              <span class="mr-2">عصر</span>
+            </label>
+            <label class="flex items-center justify-center bg-gray-800/50 p-3 rounded-xl cursor-pointer hover:bg-gray-700">
+              <input type="radio" name="exercise_time" value="شب" class="h-5 w-5 text-primary focus:ring-primary" />
+              <span class="mr-2">شب</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- جلسات تمرین (از فرم قبلی) -->
+        <div class="mb-6">
+          <label class="block text-gray-300 mb-2">جلسات تمرین در هفته (از فرم قبلی)</label>
+          <input type="text" value="۳ جلسه" readonly class="w-full bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none" />
+        </div>
+
+        <!-- سابقه آسیب دیدگی -->
+        <div class="mb-6">
+          <label class="block text-gray-300 mb-3">سابقه آسیب دیدگی</label>
+          <div class="flex space-x-6 space-x-reverse mb-3">
+            <label class="flex items-center">
+              <input type="radio" name="injury" value="yes" class="h-5 w-5 text-primary focus:ring-primary" required />
+              <span class="mr-2">بله</span>
+            </label>
+            <label class="flex items-center">
+              <input type="radio" name="injury" value="no" class="h-5 w-5 text-primary focus:ring-primary" />
+              <span class="mr-2">خیر</span>
+            </label>
+          </div>
+          <input type="text" name="injury_list" placeholder="در صورت بله، نام آسیب‌ها را ذکر کنید" class="w-full bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none" />
+        </div>
+
+        <!-- دورهای بدن -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div>
+            <label class="block text-gray-300 mb-2">دور بازو (سانتی‌متر)</label>
+            <input type="number" class="w-full bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-gray-300 mb-2">دور سینه (سانتی‌متر)</label>
+            <input type="number" class="w-full bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-gray-300 mb-2">دور باسن (سانتی‌متر)</label>
+            <input type="number" class="w-full bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none" />
+          </div>
+          <div>
+            <label class="block text-gray-300 mb-2">دور ران (سانتی‌متر)</label>
+            <input type="number" class="w-full bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none" />
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-gray-300 mb-2">دور شکم (سانتی‌متر)</label>
+            <input type="number" class="w-full bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none" />
+          </div>
+        </div>
+
+        <!-- هدف از تمرین -->
+        <div class="mb-8">
+          <label class="block text-gray-300 mb-2">هدف شما از تمرین</label>
+          <textarea class="w-full h-32 bg-gray-900/70 rounded-xl px-4 py-3 border border-gray-700 focus:border-primary focus:outline-none text-gray-200" maxlength="300" placeholder="حداکثر 300 کاراکتر..."></textarea>
+          <div class="text-gray-400 text-sm mt-1 text-left">0/300 کاراکتر</div>
+        </div>
+
+        <button type="submit" class="w-full py-3 rounded-xl bg-primary text-gray-900 font-bold hover:scale-105 transition-transform">
+          ثبت و ادامه
+        </button>
+      </form>
+
+      <!-- پیام موفقیت -->
+      <div id="success-message" class="hidden mt-8 p-6 bg-success/10 border border-success/30 rounded-xl text-center">
+        <h3 class="text-xl font-bold text-success">فرم با موفقیت ثبت شد!</h3>
+        <p class="text-gray-300 mt-2">
+          اطلاعات شما ثبت گردید. منتظر ارسال برنامه از جانب مربی باشید.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById('complementary-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      document.getElementById('complementary-form').classList.add('hidden');
+      document.getElementById('success-message').classList.remove('hidden');
+    });
+  </script>
+
+</body>
+</html>

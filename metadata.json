@@ -1,0 +1,7 @@
+{
+  "name": "Shahin Fit Platform",
+  "description": "A comprehensive fitness and nutrition management platform with specialized trainer and student dashboards, workflow management for plans, and modern glassmorphism UI.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}

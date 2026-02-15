@@ -1,0 +1,20 @@
+# Shahin Fit - Subdirectory Routing
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # اگر نام پوشه شما چیزی غیر از app است، خط زیر را تغییر دهید
+  RewriteBase /app/
+  
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-l
+  RewriteRule . index.html [L]
+</IfModule>
+
+# جایگزین مدرن برای جلوگیری از ۴۰۴ در رفرش
+<IfModule mod_dir.c>
+    DirectoryIndex index.html
+</IfModule>
+
+# در صورتی که کد بالا کار نکرد، این خط را فعال کنید (برداشتن # ابتدای خط):
+# FallbackResource /app/index.html
