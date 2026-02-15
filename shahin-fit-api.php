@@ -1,9 +1,8 @@
-
 <?php
 /**
  * Plugin Name: Shahin Fit Platform API
  * Description: مدیریت متمرکز دیتابیس و ارتباطات API برای اپلیکیشن شاهین فیت - هماهنگ با نقش‌های ویرایشگر و مشترک.
- * Version: 1.3.1
+ * Version: 1.4.0
  * Author: Shahin Fit
  * Text Domain: shahin-fit
  */
@@ -35,14 +34,12 @@ class ShahinFit_API_Handler {
 
     // بررسی ورود کاربر
     public function check_user_auth() {
-        // وردپرس برای امنیت، کوکی‌های REST API را فقط در صورتی می‌پذیرد که کاربر لاگین باشد.
         return is_user_logged_in();
     }
 
-    // بررسی سطح دسترسی مربی
+    // بررسی سطح دسترسی مربی (ادمین یا ادیتور)
     public function check_trainer_auth() {
         if ( ! is_user_logged_in() ) return false;
-        // مربی معادل Editor یا Administrator است
         return current_user_can('editor') || current_user_can('administrator');
     }
 
@@ -54,19 +51,25 @@ class ShahinFit_API_Handler {
             $role = 'TRAINER';
         }
 
+        // دریافت داده‌ها از دیتابیس وردپرس
         $requests  = get_option( 'shahin_fit_requests', array() );
         $programs  = get_option( 'shahin_fit_programs', array() );
         $exercises = get_option( 'shahin_fit_exercises', array() );
 
+        // اطمینان از آرایه بودن داده‌ها
+        if (!is_array($requests)) $requests = array();
+        if (!is_array($programs)) $programs = array();
+        if (!is_array($exercises)) $exercises = array();
+
         $user_id_str = 'S' . $current_user->ID;
 
-        // فیلتر کردن اطلاعات برای شاگرد
+        // اگر کاربر شاگرد است، فقط اطلاعات مربوط به خودش را ببیند
         if ( $role === 'STUDENT' ) {
-            $requests = array_values( array_filter( (array)$requests, function( $req ) use ( $user_id_str ) {
+            $requests = array_values( array_filter( $requests, function( $req ) use ( $user_id_str ) {
                 return isset($req['studentId']) && $req['studentId'] === $user_id_str;
             } ) );
             
-            $programs = array_values( array_filter( (array)$programs, function( $prog ) use ( $user_id_str ) {
+            $programs = array_values( array_filter( $programs, function( $prog ) use ( $user_id_str ) {
                 return isset($prog['studentId']) && $prog['studentId'] === $user_id_str;
             } ) );
         }
@@ -98,7 +101,8 @@ class ShahinFit_API_Handler {
         }
 
         return new WP_REST_Response( array( 
-            'status'  => 'success'
+            'status'  => 'success',
+            'message' => 'Data saved successfully'
         ), 200 );
     }
 }
